@@ -34,7 +34,9 @@ def add_mentor(body):  # noqa: E501
 
             conn.commit()
 
-    return new_record
+        return new_id
+
+    return 'Invalid request', 422
 
 
 def delete_mentor(mentor_id):  # noqa: E501
@@ -90,18 +92,26 @@ def get_mentors():  # noqa: E501
 
     return ret
 
-# TODO
-def query_mentors():  # noqa: E501
+
+def query_mentors(body):  # noqa: E501
     """Find mentors
 
     Find mentors matching a query # noqa: E501
 
+    :param body: Array of categories to query
+    :type body: dict | bytes
 
     :rtype: List[Mentor]
     """
-    return 'do some magic!'
+    if connexion.request.is_json:
+        categories = connexion.request.get_json()
 
-# TODO
+        with db.get_cursor() as cur:
+            cur.execute("""SELECT * FROM didactik.mentors where "categories" @> %(categories)s""", {"categories": categories})
+            ret = cur.fetchall()
+
+    return ret
+
 def update_mentor(body, mentor_id):  # noqa: E501
     """Update an existing mentor
 
@@ -115,21 +125,24 @@ def update_mentor(body, mentor_id):  # noqa: E501
     :rtype: Mentor
     """
     if connexion.request.is_json:
-        body = connexion.request.get_json()  # noqa: E501
+        changes = connexion.request.get_json()
 
-        replaced = False
+        params = {"mentor_id": mentor_id, **changes}
 
-        for m in mentorStore:
-            if m.id == mentor_id:
-                for k, v in body.items():
-                    print(k, v)
-                    # m[k] = v # TODO
+        conn = db.connect()
 
-                replaced = True
-                break
+        with conn.cursor() as cur:
+            cur.execute("""
+                        UPDATE didactik.mentors SET ("username", "firstName", "lastName", "email", "phone", "availableStatus", "categories") =
+                        (%(username)s, %(firstName)s, %(lastName)s, %(email)s, %(phone)s, %(availableStatus)s, %(categories)s)
+                        WHERE id=%(mentor_id)s
+                        RETURNING id
+                        """, params)
 
-        if replaced:
-            return body
-        return f'Mentor {mentor_id} not found', 404
+            id = cur.fetchone()[0]
+
+            conn.commit()
+
+        return
 
     return 'Invalid request', 422

@@ -140,12 +140,24 @@ paths:
                 x-content-type: application/json
       x-openapi-router-controller: swagger_server.controllers.mentor_controller
   /search:
-    get:
+    post:
       tags:
       - mentor
       summary: Find mentors
       description: Find mentors matching a query
       operationId: query_mentors
+      requestBody:
+        description: Array of categories to query
+        content:
+          application/json:
+            schema:
+              type: array
+              example:
+              - Python
+              - Typescript
+              items:
+                type: string
+        required: true
       responses:
         "200":
           description: successful operation
