@@ -1,14 +1,11 @@
 import connexion
 import six
+import sys
 
 from swagger_server.models.mentor import Mentor  # noqa: E501
 from swagger_server import util
+from swagger_server import db
 
-mentorStore = [
-    Mentor(1, 'dstu', 'Dan', 'Stuart', 'drestuart@gmail.com', '987-654-3210', True, ['Python', 'Typescript']),
-    Mentor(2, 'GvR_bdfl', 'Guido', 'van Rossum', 'GvR_bdfl@python.org', '+1 123-456-7890', False, ['Python']),
-    Mentor(3, 'lt', 'Linus', 'Torvalds', 'linus@kernel.org', '987-654-3210', True, ['C', 'Linux']),
-]
 
 def add_mentor(body):  # noqa: E501
     """Add a new mentor to the store
@@ -20,11 +17,24 @@ def add_mentor(body):  # noqa: E501
 
     :rtype: Mentor
     """
+
     if connexion.request.is_json:
-        body = Mentor.from_dict(connexion.request.get_json())  # noqa: E501
-        print(body)
-        mentorStore.append(body)
-    return body
+        new_record = connexion.request.get_json()
+
+        conn = db.connect()
+
+        with conn.cursor() as cur:
+            cur.execute("""
+                        INSERT INTO didactik.mentors ("username", "firstName", "lastName", "email", "phone", "availableStatus", "categories")
+                        VALUES (%(username)s, %(firstName)s, %(lastName)s, %(email)s, %(phone)s, %(availableStatus)s, %(categories)s)
+                        RETURNING id
+                        """, new_record)
+
+            new_id = cur.fetchone()[0]
+
+            conn.commit()
+
+    return new_record
 
 
 def delete_mentor(mentor_id):  # noqa: E501
@@ -38,17 +48,11 @@ def delete_mentor(mentor_id):  # noqa: E501
     :rtype: None
     """
 
-    deleted = False
+    conn = db.connect()
+    with conn.cursor() as cur:
+        cur.execute("DELETE FROM didactik.mentors WHERE id=%s", [mentor_id])
 
-    for m in mentorStore:
-        if m.id == mentor_id:
-            mentorStore.remove(m)
-            deleted = True
-            break
-
-    if deleted:
-        return
-    return f'Mentor {mentor_id} not found', 404
+        conn.commit()
 
 
 def get_mentor_by_id(mentor_id):  # noqa: E501
@@ -62,16 +66,13 @@ def get_mentor_by_id(mentor_id):  # noqa: E501
     :rtype: Mentor
     """
 
-    ret = None
+    with db.get_cursor() as cur:
+        cur.execute("SELECT * FROM didactik.mentors WHERE id=%s", [mentor_id])
+        ret = cur.fetchone()
 
-    for m in mentorStore:
-        if m.id == mentor_id:
-            ret = m
-            break
-
-    if ret:
-        return ret
-    return f'Mentor {mentor_id} not found', 404
+        if ret:
+            return ret
+        return f'Mentor {mentor_id} not found', 404
 
 
 def get_mentors():  # noqa: E501
@@ -83,7 +84,11 @@ def get_mentors():  # noqa: E501
     :rtype: List[Mentor]
     """
 
-    return mentorStore
+    with db.get_cursor() as cur:
+        cur.execute("SELECT * FROM didactik.mentors")
+        ret = cur.fetchall()
+
+    return ret
 
 # TODO
 def query_mentors():  # noqa: E501
