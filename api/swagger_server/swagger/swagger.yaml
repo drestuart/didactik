@@ -1,0 +1,235 @@
+openapi: 3.0.3
+info:
+  title: Didactik Mentor API
+  description: TK
+  version: 1.0.0
+servers:
+- url: https://127.0.0.1:5000
+tags:
+- name: mentor
+  description: Mentor CRUD operations
+paths:
+  /mentor:
+    post:
+      tags:
+      - mentor
+      summary: Add a new mentor to the store
+      description: Add a new mentor to the store
+      operationId: add_mentor
+      requestBody:
+        description: Create a new mentor in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mentor'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Mentor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mentor'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mentor'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Mentor'
+        "400":
+          description: Invalid input
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.mentor_controller
+  /mentor/{mentorId}:
+    get:
+      tags:
+      - mentor
+      summary: Find mentor by ID
+      description: Returns a single mentor
+      operationId: get_mentor_by_id
+      parameters:
+      - name: mentorId
+        in: path
+        description: ID of mentor to return
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mentor'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Mentor'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Mentor not found
+      x-openapi-router-controller: swagger_server.controllers.mentor_controller
+    put:
+      tags:
+      - mentor
+      summary: Update an existing mentor
+      description: Update an existing mentor by Id
+      operationId: update_mentor
+      parameters:
+      - name: mentorId
+        in: path
+        description: ID of mentor to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Update an existent mentor in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mentor'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Mentor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mentor'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mentor'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Mentor'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Mentor not found
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.mentor_controller
+    delete:
+      tags:
+      - mentor
+      summary: Deletes a mentor
+      description: delete a mentor
+      operationId: delete_mentor
+      parameters:
+      - name: mentorId
+        in: path
+        description: mentor id to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "400":
+          description: Invalid mentor value
+      x-openapi-router-controller: swagger_server.controllers.mentor_controller
+  /mentors:
+    get:
+      tags:
+      - mentor
+      summary: List all mentors
+      description: List all mentors
+      operationId: get_mentors
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mentor'
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.mentor_controller
+  /search:
+    get:
+      tags:
+      - mentor
+      summary: Find mentors
+      description: Find mentors matching a query
+      operationId: query_mentors
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mentor'
+                x-content-type: application/json
+        "400":
+          description: Invalid query supplied
+        "404":
+          description: Mentors not found
+        "422":
+          description: Validation exception
+      x-openapi-router-controller: swagger_server.controllers.mentor_controller
+components:
+  schemas:
+    Mentor:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        username:
+          type: string
+          example: theUser
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        phone:
+          type: string
+          example: 123-456-7890
+        availableStatus:
+          type: boolean
+          description: Available Status
+          example: true
+        categories:
+          type: array
+          example:
+          - Python
+          - Typescript
+          items:
+            type: string
+      example:
+        firstName: John
+        lastName: James
+        availableStatus: true
+        phone: 123-456-7890
+        id: 10
+        categories:
+        - Python
+        - Typescript
+        email: john@email.com
+        username: theUser
+      xml:
+        name: mentor
+
