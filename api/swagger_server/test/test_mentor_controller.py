@@ -18,19 +18,10 @@ class TestMentorController(BaseTestCase):
         Add a new mentor to the store
         """
         body = Mentor()
-        data = dict(id=789,
-                    username='username_example',
-                    first_name='first_name_example',
-                    last_name='last_name_example',
-                    email='email_example',
-                    phone='phone_example',
-                    available_status=true,
-                    categories='categories_example')
         response = self.client.open(
             '/mentor',
             method='POST',
             data=json.dumps(body),
-            data=data,
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -85,19 +76,10 @@ class TestMentorController(BaseTestCase):
         Update an existing mentor
         """
         body = Mentor()
-        data = dict(id=789,
-                    username='username_example',
-                    first_name='first_name_example',
-                    last_name='last_name_example',
-                    email='email_example',
-                    phone='phone_example',
-                    available_status=true,
-                    categories='categories_example')
         response = self.client.open(
             '/mentor/{mentorId}'.format(mentor_id=789),
             method='PUT',
             data=json.dumps(body),
-            data=data,
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

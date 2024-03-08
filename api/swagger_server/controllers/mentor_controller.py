@@ -4,6 +4,11 @@ import six
 from swagger_server.models.mentor import Mentor  # noqa: E501
 from swagger_server import util
 
+mentorStore = [
+    Mentor(1, 'dstu', 'Dan', 'Stuart', 'drestuart@gmail.com', '987-654-3210', True, ['Python', 'Typescript']),
+    Mentor(2, 'GvR_bdfl', 'Guido', 'van Rossum', 'GvR_bdfl@python.org', '+1 123-456-7890', False, ['Python']),
+    Mentor(3, 'lt', 'Linus', 'Torvalds', 'linus@kernel.org', '987-654-3210', True, ['C', 'Linux']),
+]
 
 def add_mentor(body):  # noqa: E501
     """Add a new mentor to the store
@@ -17,34 +22,9 @@ def add_mentor(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Mentor.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
-
-
-def add_mentor(id, username, first_name, last_name, email, phone, available_status, categories):  # noqa: E501
-    """Add a new mentor to the store
-
-    Add a new mentor to the store # noqa: E501
-
-    :param id: 
-    :type id: int
-    :param username: 
-    :type username: str
-    :param first_name: 
-    :type first_name: str
-    :param last_name: 
-    :type last_name: str
-    :param email: 
-    :type email: str
-    :param phone: 
-    :type phone: str
-    :param available_status: 
-    :type available_status: bool
-    :param categories: 
-    :type categories: List[str]
-
-    :rtype: Mentor
-    """
-    return 'do some magic!'
+        print(body)
+        mentorStore.append(body)
+    return body
 
 
 def delete_mentor(mentor_id):  # noqa: E501
@@ -57,7 +37,18 @@ def delete_mentor(mentor_id):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+
+    deleted = False
+
+    for m in mentorStore:
+        if m.id == mentor_id:
+            mentorStore.remove(m)
+            deleted = True
+            break
+
+    if deleted:
+        return
+    return f'Mentor {mentor_id} not found', 404
 
 
 def get_mentor_by_id(mentor_id):  # noqa: E501
@@ -70,7 +61,17 @@ def get_mentor_by_id(mentor_id):  # noqa: E501
 
     :rtype: Mentor
     """
-    return 'do some magic!'
+
+    ret = None
+
+    for m in mentorStore:
+        if m.id == mentor_id:
+            ret = m
+            break
+
+    if ret:
+        return ret
+    return f'Mentor {mentor_id} not found', 404
 
 
 def get_mentors():  # noqa: E501
@@ -81,9 +82,10 @@ def get_mentors():  # noqa: E501
 
     :rtype: List[Mentor]
     """
-    return 'do some magic!'
 
+    return mentorStore
 
+# TODO
 def query_mentors():  # noqa: E501
     """Find mentors
 
@@ -94,13 +96,13 @@ def query_mentors():  # noqa: E501
     """
     return 'do some magic!'
 
-
+# TODO
 def update_mentor(body, mentor_id):  # noqa: E501
     """Update an existing mentor
 
     Update an existing mentor by Id # noqa: E501
 
-    :param body: Update an existent mentor in the store
+    :param body: Update an existing mentor in the store
     :type body: dict | bytes
     :param mentor_id: ID of mentor to update
     :type mentor_id: int
@@ -108,34 +110,21 @@ def update_mentor(body, mentor_id):  # noqa: E501
     :rtype: Mentor
     """
     if connexion.request.is_json:
-        body = Mentor.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        body = connexion.request.get_json()  # noqa: E501
 
+        replaced = False
 
-def update_mentor(id, username, first_name, last_name, email, phone, available_status, categories, mentor_id):  # noqa: E501
-    """Update an existing mentor
+        for m in mentorStore:
+            if m.id == mentor_id:
+                for k, v in body.items():
+                    print(k, v)
+                    # m[k] = v # TODO
 
-    Update an existing mentor by Id # noqa: E501
+                replaced = True
+                break
 
-    :param id: 
-    :type id: int
-    :param username: 
-    :type username: str
-    :param first_name: 
-    :type first_name: str
-    :param last_name: 
-    :type last_name: str
-    :param email: 
-    :type email: str
-    :param phone: 
-    :type phone: str
-    :param available_status: 
-    :type available_status: bool
-    :param categories: 
-    :type categories: List[str]
-    :param mentor_id: ID of mentor to update
-    :type mentor_id: int
+        if replaced:
+            return body
+        return f'Mentor {mentor_id} not found', 404
 
-    :rtype: Mentor
-    """
-    return 'do some magic!'
+    return 'Invalid request', 422

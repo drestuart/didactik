@@ -22,21 +22,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Mentor'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Mentor'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Mentor'
         required: true
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Mentor'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Mentor'
         "400":
@@ -68,9 +59,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Mentor'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Mentor'
         "400":
           description: Invalid ID supplied
         "404":
@@ -93,15 +81,9 @@ paths:
           type: integer
           format: int64
       requestBody:
-        description: Update an existent mentor in the store
+        description: Update an existing mentor in the store
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/Mentor'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Mentor'
-          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/Mentor'
         required: true
@@ -110,9 +92,6 @@ paths:
           description: Successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Mentor'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/Mentor'
         "400":
@@ -230,6 +209,4 @@ components:
         - Typescript
         email: john@email.com
         username: theUser
-      xml:
-        name: mentor
 
