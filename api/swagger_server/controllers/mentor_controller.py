@@ -1,6 +1,7 @@
 import connexion
-import six
 import sys
+import psycopg
+import re
 
 from swagger_server.models.mentor import Mentor  # noqa: E501
 from swagger_server import util
@@ -26,17 +27,25 @@ def add_mentor(body):  # noqa: E501
         conn = db.connect()
 
         with conn.cursor() as cur:
-            cur.execute("""
-                        INSERT INTO didactik.mentors ("username", "firstName", "lastName", "email", "phone", "availableStatus", "categories")
-                        VALUES (%(username)s, %(firstName)s, %(lastName)s, %(email)s, %(phone)s, %(availableStatus)s, %(categories)s)
-                        RETURNING id
-                        """, new_record)
+            try:
+                cur.execute("""
+                            INSERT INTO didactik.mentors ("username", "firstName", "lastName", "email", "phone", "availableStatus", "categories")
+                            VALUES (%(username)s, %(firstName)s, %(lastName)s, %(email)s, %(phone)s, %(availableStatus)s, %(categories)s)
+                            RETURNING id
+                            """, new_record)
+                
+                new_id = cur.fetchone()[0]
+                conn.commit()
+                return new_id
 
-            new_id = cur.fetchone()[0]
+            except psycopg.Error as e:
+                m = re.match(r"Key \((\w+)\)=\((.+?)\) already exists", e.diag.message_detail)
 
-            conn.commit()
-
-        return new_id
+                if m:
+                    error_message = f'A user with {m.group(1)} {m.group(2)} already exists'
+                    return error_message, 422
+                
+                
 
     return 'Invalid request', 422
 
@@ -136,16 +145,22 @@ def update_mentor(body, mentor_id):  # noqa: E501
         conn = db.connect()
 
         with conn.cursor() as cur:
-            cur.execute("""
-                        UPDATE didactik.mentors SET ("username", "firstName", "lastName", "email", "phone", "availableStatus", "categories") =
-                        (%(username)s, %(firstName)s, %(lastName)s, %(email)s, %(phone)s, %(availableStatus)s, %(categories)s)
-                        WHERE id=%(mentor_id)s
-                        RETURNING id
-                        """, params)
+            try:
+                cur.execute("""
+                            UPDATE didactik.mentors SET ("username", "firstName", "lastName", "email", "phone", "availableStatus", "categories") =
+                            (%(username)s, %(firstName)s, %(lastName)s, %(email)s, %(phone)s, %(availableStatus)s, %(categories)s)
+                            WHERE id=%(mentor_id)s
+                            RETURNING id
+                            """, params)
 
-            id = cur.fetchone()[0]
+                conn.commit()
 
-            conn.commit()
+            except psycopg.Error as e:
+                m = re.match(r"Key \((\w+)\)=\((.+?)\) already exists", e.diag.message_detail)
+
+                if m:
+                    error_message = f'A user with {m.group(1)} {m.group(2)} already exists'
+                    return error_message, 422
 
         return
 
