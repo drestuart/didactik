@@ -6,15 +6,6 @@ export function MentorsPage() {
 
     const [mentors, setMentors] = useState<Mentor[]>([]);
 
-    // let mentors: Mentor[] = [];
-
-    // getAllMentors().then(list => { 
-    //     mentors = list;
-    // });
-
-
-    // const [apiResponse, setApiResponse] = useState("*** now loading ***");
-
     useEffect(() => {
         getAllMentors().then(
             result => setMentors(result));
