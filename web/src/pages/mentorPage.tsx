@@ -7,7 +7,6 @@ export function MentorPage() {
     const [mentor, setMentor] = useState<Mentor>();
 
     let { mentor_id } = useParams();
-    console.log(mentor_id);
     const mentorId: number = Number(mentor_id);
 
     useEffect(() => {

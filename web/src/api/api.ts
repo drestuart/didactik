@@ -1,13 +1,13 @@
 
 export interface Mentor {
-    'id': number
-    'username': string
-    'firstName': string
-    'lastName': string
-    'email': string
-    'phone': string
-    'availableStatus': boolean
-    'categories': string[]
+    id?: number
+    username: string
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    availableStatus: boolean
+    categories: string[]
 }
 
 export const mentorDefault: Mentor = {
@@ -44,6 +44,20 @@ export function updateMentor(mentor: Mentor): Promise<Response> {
         },
     };
     return fetch(`http://127.0.0.1:5000/mentor/${mentor.id}`, options)
+        .then(res => {
+            return res
+        });
+}
+
+export function createMentor(mentor: Mentor): Promise<Response> {
+    const options = {
+        body: JSON.stringify(mentor),
+        method: "Post",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    return fetch(`http://127.0.0.1:5000/mentor`, options)
         .then(res => {
             return res
         });

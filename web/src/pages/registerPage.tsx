@@ -1,8 +1,9 @@
 import { FormEvent, useEffect, useState } from "react";
-import { Mentor, getMentorById, mentorDefault, updateMentor } from "../api/api";
-import { useParams } from "react-router-dom";
+import { Mentor, createMentor, getMentorById, mentorDefault, updateMentor } from "../api/api";
+import { trimQuotes } from "../util";
+import { useNavigate } from "react-router-dom";
 
-export function EditMentorPage() {
+export function RegisterPage() {
 
     const [username, setUsername] = useState<string>('');
     const [firstName, setFirstName] = useState<string>('');
@@ -13,29 +14,13 @@ export function EditMentorPage() {
     const [categories, setCategories] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
 
-    let { mentor_id } = useParams();
-    const mentorIdNum: number = Number(mentor_id);
-
-    useEffect(() => {
-      getMentorById(mentorIdNum).then(
-        result => {
-          setUsername(result.username);
-          setFirstName(result.firstName);
-          setLastName(result.lastName);
-          setEmail(result.email);
-          setPhone(result.phone);
-          setAvailableStatus(result.availableStatus);
-          setCategories(result.categories.join(", "));
-        }
-      ); 
-    },[mentorIdNum]);
+    const navigate = useNavigate();
 
     const handleSubmit = (e: FormEvent) => {
       
       const categoriesArray: string[] = categories.split(/ *, */);
       
-      updateMentor({
-        id: mentorIdNum,
+      createMentor({
         username,
         firstName,
         lastName,
@@ -44,11 +29,15 @@ export function EditMentorPage() {
         availableStatus,
         categories: categoriesArray
       }).then(async (res) => {
-        if (res.status === 204) {
+        if (res.status === 200) {
           setErrorMessage('');
+          res.text().then( (new_id) => {
+            navigate(`/mentor/${new_id}`);
+          })
         }
         else {
           res.text().then( (err) => {
+            err = trimQuotes(err);
             setErrorMessage(err);
           })
         }
@@ -58,7 +47,7 @@ export function EditMentorPage() {
     }
     
     return (
-      <div className="EditMentorPage">
+      <div className="RegisterPage">
         <form onSubmit={e => { handleSubmit(e) }}>
           <p className="error">{errorMessage}</p>
           <table>

@@ -4,6 +4,7 @@ import './App.css';
 import { MentorsPage } from './pages/mentorsPage';
 import { MentorPage } from './pages/mentorPage';
 import { EditMentorPage } from './pages/editMentorPage';
+import { RegisterPage } from './pages/registerPage';
 
 function App() {
   return (
@@ -55,14 +56,6 @@ function Home() {
   return (
     <div>
       <h2>Welcome to Didactik</h2>
-    </div>
-  );
-}
-
-function RegisterPage() {
-  return (
-    <div>
-      <h2>Register</h2>
     </div>
   );
 }

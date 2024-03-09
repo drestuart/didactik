@@ -7,8 +7,6 @@ interface MentorTableProps {
 
 export function MentorTable(props: MentorTableProps) {
 
-    console.log(props.mentors);
-
     let rows: JSX.Element[] = [];
 
     props.mentors.forEach((m) => {
