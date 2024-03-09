@@ -21,6 +21,8 @@ def add_mentor(body):  # noqa: E501
     if connexion.request.is_json:
         new_record = connexion.request.get_json()
 
+        new_record = util.format(new_record)
+
         conn = db.connect()
 
         with conn.cursor() as cur:
@@ -125,9 +127,11 @@ def update_mentor(body, mentor_id):  # noqa: E501
     :rtype: Mentor
     """
     if connexion.request.is_json:
-        changes = connexion.request.get_json()
+        new_data = connexion.request.get_json()
 
-        params = {"mentor_id": mentor_id, **changes}
+        new_data = util.format(new_data)
+
+        params = {"mentor_id": mentor_id, **new_data}
 
         conn = db.connect()
 
@@ -146,3 +150,18 @@ def update_mentor(body, mentor_id):  # noqa: E501
         return
 
     return 'Invalid request', 422
+
+
+def get_suggested_categories():
+    """TODO
+    """
+
+    with db.get_cursor() as cur:
+        cur.execute("SELECT UNNEST(categories) as element FROM didactik.mentors GROUP BY element ORDER BY count(id) DESC LIMIT 3")
+        categories = cur.fetchall()
+
+    ret = []
+    for c in categories:
+        ret.append(c["element"])
+
+    return ret

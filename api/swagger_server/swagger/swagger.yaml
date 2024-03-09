@@ -175,6 +175,22 @@ paths:
         "422":
           description: Validation exception
       x-openapi-router-controller: swagger_server.controllers.mentor_controller
+  /suggested_categories:
+    get:
+      tags:
+      - categories
+      summary: Get the top 3 categories in the database
+      operationId: get_suggested_categories
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      x-openapi-router-controller: swagger_server.controllers.mentor_controller
 components:
   schemas:
     Mentor:

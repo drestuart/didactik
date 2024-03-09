@@ -140,3 +140,23 @@ def _deserialize_dict(data, boxed_type):
     """
     return {k: _deserialize(v, boxed_type)
             for k, v in six.iteritems(data)}
+
+def format(record):
+    """Transform a record to the correct format.
+    Currently just title cases each category entry.
+
+    :param record: record to transform
+    :type record: dict
+
+    :return: Formatted record
+    :rtype: dict
+    """
+
+    new_categories = []
+
+    for c in record["categories"]:
+        new_categories.append(c.title())
+
+    record["categories"] = new_categories
+
+    return record
