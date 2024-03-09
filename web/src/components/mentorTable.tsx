@@ -22,7 +22,7 @@ export function MentorTable(props: MentorTableProps) {
           </tr>
         );
     });
-  
+
     return (
       <div className="MentorTable">
         <div>

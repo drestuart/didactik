@@ -33,7 +33,7 @@ def add_mentor(body):  # noqa: E501
                             VALUES (%(username)s, %(firstName)s, %(lastName)s, %(email)s, %(phone)s, %(availableStatus)s, %(categories)s)
                             RETURNING id
                             """, new_record)
-                
+
                 new_id = cur.fetchone()[0]
                 conn.commit()
                 return new_id
@@ -44,8 +44,8 @@ def add_mentor(body):  # noqa: E501
                 if m:
                     error_message = f'A user with {m.group(1)} {m.group(2)} already exists'
                     return error_message, 422
-                
-                
+
+
 
     return 'Invalid request', 422
 

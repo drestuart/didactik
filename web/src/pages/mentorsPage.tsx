@@ -10,9 +10,9 @@ export function MentorsPage() {
         getAllMentors().then(
             result => setMentors(result));
     },[]);
-    
+
     return (
-      <div className="MentorsPage">
+      <div id="MentorsPage">
         <MentorTable mentors={mentors} />
       </div>
     );
