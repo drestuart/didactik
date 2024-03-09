@@ -117,6 +117,8 @@ def query_mentors(body):  # noqa: E501
     if connexion.request.is_json:
         categories = connexion.request.get_json()
 
+        categories = [c.title() for c in categories]
+
         with db.get_cursor() as cur:
             cur.execute("""SELECT * FROM didactik.mentors where "categories" @> %(categories)s""", {"categories": categories})
             ret = cur.fetchall()
