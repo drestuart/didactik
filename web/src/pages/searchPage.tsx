@@ -5,7 +5,6 @@ import { MentorTable } from "../components/mentorTable";
 export function SearchPage() {
 
     const [categories, setCategories] = useState<string>('');
-    const [errorMessage, setErrorMessage] = useState<string>('');
     const [mentors, setMentors] = useState<Mentor[]>([]);
 
     const handleSubmit = (e: FormEvent) => {
@@ -24,7 +23,6 @@ export function SearchPage() {
       <div id="SearchPage">
         <div className="page_content">
           <form onSubmit={e => { handleSubmit(e) }}>
-            <p className="error">{errorMessage}</p>
               <label htmlFor='categories'>Categories</label>
               <input id='categories' name='categories' type='text' value={categories} onChange={e => setCategories(e.target.value)}/>
             <input

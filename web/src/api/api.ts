@@ -77,3 +77,13 @@ export function searchMentors(categories: string[]): Promise<Mentor[]> {
             return res as Mentor[]
         });
 }
+
+export function deleteMentor(mentor_id: number): Promise<Response> {
+    const options = {
+        method: "DELETE",
+    };
+    return fetch(`http://127.0.0.1:5000/mentor/${mentor_id}`, options)
+        .then(res => {
+            return res
+        });
+}

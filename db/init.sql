@@ -17,4 +17,4 @@ DELIMITER ','
 QUOTE '"'
 CSV;
 
-ALTER SEQUENCE didactik.mentors_id_seq RESTART WITH 4;
+ALTER SEQUENCE didactik.mentors_id_seq RESTART WITH 8;

@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
-import { getMentorById, updateMentor } from "../api/api";
-import { useParams } from "react-router-dom";
+import { deleteMentor, getMentorById, updateMentor } from "../api/api";
+import { useNavigate, useParams } from "react-router-dom";
 
 export function EditMentorPage() {
 
@@ -15,6 +15,8 @@ export function EditMentorPage() {
 
     let { mentor_id } = useParams();
     const mentorIdNum: number = Number(mentor_id);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
       getMentorById(mentorIdNum).then(
@@ -31,7 +33,6 @@ export function EditMentorPage() {
     },[mentorIdNum]);
 
     const handleSubmit = (e: FormEvent) => {
-
       const categoriesArray: string[] = categories.split(/ *, */);
 
       updateMentor({
@@ -55,6 +56,15 @@ export function EditMentorPage() {
       });
 
       e.preventDefault();
+    }
+
+    const handleDelete = () => {
+      if (confirm("Are you sure you want to delete this mentor?")) { // eslint-disable-line no-restricted-globals
+        deleteMentor(mentorIdNum)
+        .then(() => {
+          navigate("/mentors");
+        });
+      }
     }
 
     return (
@@ -97,6 +107,11 @@ export function EditMentorPage() {
             <input
               type='submit'
               value='Update'
+            />
+            <input
+              type='button'
+              value='Delete'
+              onClick={handleDelete}
             />
           </form>
         </div>
