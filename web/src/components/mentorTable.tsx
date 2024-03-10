@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Mentor } from "../api/api";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 interface MentorTableProps {
     mentors: Mentor[];
@@ -11,15 +12,15 @@ export function MentorTable(props: MentorTableProps) {
 
     props.mentors.forEach((m) => {
         rows.push(
-          <tr key={m.id}>
-            <td><Link to={`/mentor/${m.id}`}>{m.username}</Link></td>
-            <td>{m.firstName}</td>
-            <td>{m.lastName}</td>
-            <td>{m.email}</td>
-            <td>{m.phone}</td>
-            <td>{m.availableStatus ? "Yes" : "No"}</td>
-            <td>{m.categories.join(", ")}</td>
-          </tr>
+          <TableRow key={m.id}>
+            <TableCell><Link to={`/mentor/${m.id}`}>{m.username}</Link></TableCell>
+            <TableCell>{m.firstName}</TableCell>
+            <TableCell>{m.lastName}</TableCell>
+            <TableCell>{m.email}</TableCell>
+            <TableCell>{m.phone}</TableCell>
+            <TableCell>{m.availableStatus ? "Yes" : "No"}</TableCell>
+            <TableCell>{m.categories.join(", ")}</TableCell>
+          </TableRow>
         );
     });
 
@@ -27,22 +28,24 @@ export function MentorTable(props: MentorTableProps) {
       props.mentors.length ?
       (<div className="MentorTable">
         <div>
-          <table>
-            <thead>
-              <tr>
-                <th>Username</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Available</th>
-                <th>Categories</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows}
-            </tbody>
-          </table>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Username</TableCell>
+                  <TableCell>First Name</TableCell>
+                  <TableCell>Last Name</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Phone</TableCell>
+                  <TableCell>Available</TableCell>
+                  <TableCell>Categories</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </div>) : null
     );

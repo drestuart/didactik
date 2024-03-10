@@ -6,6 +6,7 @@ import { MentorPage } from './pages/mentorPage';
 import { EditMentorPage } from './pages/editMentorPage';
 import { RegisterPage } from './pages/registerPage';
 import { SearchPage } from './pages/searchPage';
+import NavBar from './components/navBar';
 
 function App() {
   return (
@@ -31,23 +32,7 @@ function App() {
 function Layout() {
   return (
     <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Didactik Home</Link>
-          </li>
-          <li>
-            <Link to="/mentors">All Mentors</Link>
-          </li>
-          <li>
-            <Link to="/search">Search</Link>
-          </li>
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
-        </ul>
-      </nav>
-      <hr />
+      <NavBar/>
       <Outlet />
     </div>
   );

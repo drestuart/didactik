@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Mentor, searchMentors } from "../api/api";
 import { MentorTable } from "../components/mentorTable";
+import { Button, Input } from "@mui/material";
 
 export function SearchPage() {
 
@@ -24,11 +25,12 @@ export function SearchPage() {
         <div className="page_content">
           <form onSubmit={e => { handleSubmit(e) }}>
               <label htmlFor='categories'>Categories</label>
-              <input id='categories' name='categories' type='text' value={categories} onChange={e => setCategories(e.target.value)}/>
-            <input
-              type='submit'
-              value='Search'
-            />
+              <Input id='categories' name='categories' type='text' value={categories} onChange={e => setCategories(e.target.value)}/>
+            <Button
+              variant="contained"
+              type='submit'>
+                Search
+            </Button>
           </form>
           <MentorTable mentors={mentors} />
         </div>

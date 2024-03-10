@@ -1,6 +1,8 @@
 import { FormEvent, useEffect, useState } from "react";
 import { deleteMentor, getMentorById, updateMentor } from "../api/api";
 import { useNavigate, useParams } from "react-router-dom";
+import { trimQuotes } from "../util";
+import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 
 export function EditMentorPage() {
 
@@ -50,7 +52,7 @@ export function EditMentorPage() {
         }
         else {
           res.text().then( (err) => {
-            setErrorMessage(err);
+            setErrorMessage(trimQuotes(err));
           })
         }
       });
@@ -75,44 +77,43 @@ export function EditMentorPage() {
             <table>
               <tbody>
                 <tr>
-                  <td><label htmlFor='username'>Username</label></td>
-                  <td><input id='username' name='username' type='text' value={username} onChange={e => setUsername(e.target.value)}/></td>
+                  <td><TextField id='username' label="Username" value={username} onChange={e => setUsername(e.target.value)} variant="outlined"/></td>
                 </tr>
                 <tr>
-                  <td><label htmlFor='firstName'>First Name</label></td>
-                  <td><input id='firstName' name='firstName' type='text' value={firstName} onChange={e => setFirstName(e.target.value)}/></td>
+                  <td><TextField id='firstName' label="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} variant="outlined"/></td>
                 </tr>
                 <tr>
-                  <td><label htmlFor='lastName'>Last Name</label></td>
-                  <td><input id='lastName' name='lastName' type='text' value={lastName} onChange={e => setLastName(e.target.value)}/></td>
+                  <td><TextField id='lastName' label="Last Name"  value={lastName} onChange={e => setLastName(e.target.value)} variant="outlined"/></td>
                 </tr>
                 <tr>
-                  <td><label htmlFor='email'>Email</label></td>
-                  <td><input id='email' name='email' type='text' value={email} onChange={e => setEmail(e.target.value)}/></td>
+                  <td><TextField id="email" label="Email" value={email} onChange={e => setEmail(e.target.value)} variant="outlined"/></td>
                 </tr>
                 <tr>
-                  <td><label htmlFor='phone'>Phone</label></td>
-                  <td><input id='phone' name='phone' type='text' value={phone} onChange={e => setPhone(e.target.value)}/></td>
+                  <td><TextField id="phone" label="Phone" value={phone} onChange={e => setPhone(e.target.value)} variant="outlined"/></td>
                 </tr>
                 <tr>
-                  <td><label htmlFor='availableStatus'>Available</label></td>
-                  <td><input id='availableStatus' name='availableStatus' type='checkbox' checked={availableStatus} onChange={e => setAvailableStatus(e.target.checked)}/></td>
+                  <td>
+                    <FormControlLabel id='availableStatus' label="Available" control={
+                      <Checkbox checked={availableStatus} onChange={(e) => setAvailableStatus(e.target.checked)} />
+                    }/>
+                  </td>
                 </tr>
                 <tr>
-                  <td><label htmlFor='categories'>Categories</label></td>
-                  <td><input id='categories' name='categories' type='text' value={categories} onChange={e => setCategories(e.target.value)}/></td>
+                  <td><TextField id='categories' label="Categories" value={categories} onChange={e => setCategories(e.target.value)} variant="outlined"/></td>
                 </tr>
               </tbody>
             </table>
-            <input
-              type='submit'
-              value='Update'
-            />
-            <input
-              type='button'
-              value='Delete'
-              onClick={handleDelete}
-            />
+            <Button
+              variant="contained"
+              type='submit'>
+                Update
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleDelete}>
+                Delete
+            </Button>
           </form>
         </div>
       </div>
