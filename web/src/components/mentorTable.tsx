@@ -11,7 +11,7 @@ export function MentorTable(props: MentorTableProps) {
 
     props.mentors.forEach((m) => {
         rows.push(
-          <tr>
+          <tr key={m.id}>
             <td><Link to={`/mentor/${m.id}`}>{m.username}</Link></td>
             <td>{m.firstName}</td>
             <td>{m.lastName}</td>
@@ -24,22 +24,27 @@ export function MentorTable(props: MentorTableProps) {
     });
 
     return (
-      <div className="MentorTable">
+      props.mentors.length ?
+      (<div className="MentorTable">
         <div>
           <table>
-            <tr>
-              <th>Username</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Available</th>
-              <th>Categories</th>
-            </tr>
-            {rows}
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Available</th>
+                <th>Categories</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows}
+            </tbody>
           </table>
         </div>
-      </div>
+      </div>) : null
     );
 
 }

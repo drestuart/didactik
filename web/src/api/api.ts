@@ -52,7 +52,7 @@ export function updateMentor(mentor: Mentor): Promise<Response> {
 export function createMentor(mentor: Mentor): Promise<Response> {
     const options = {
         body: JSON.stringify(mentor),
-        method: "Post",
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
@@ -63,3 +63,17 @@ export function createMentor(mentor: Mentor): Promise<Response> {
         });
 }
 
+export function searchMentors(categories: string[]): Promise<Mentor[]> {
+    const options = {
+        body: JSON.stringify(categories),
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    return fetch("http://127.0.0.1:5000/search", options)
+        .then(res => res.json()).then(res => {
+            return res as Mentor[]
+        });
+}

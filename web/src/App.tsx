@@ -5,6 +5,7 @@ import { MentorsPage } from './pages/mentorsPage';
 import { MentorPage } from './pages/mentorPage';
 import { EditMentorPage } from './pages/editMentorPage';
 import { RegisterPage } from './pages/registerPage';
+import { SearchPage } from './pages/searchPage';
 
 function App() {
   return (
@@ -56,14 +57,6 @@ function Home() {
   return (
     <div>
       <h2>Welcome to Didactik</h2>
-    </div>
-  );
-}
-
-function SearchPage() {
-  return (
-    <div>
-      <h2>Search</h2>
     </div>
   );
 }

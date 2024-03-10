@@ -1,5 +1,4 @@
 import connexion
-import sys
 import psycopg
 import re
 
