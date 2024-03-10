@@ -26,7 +26,7 @@ export function MentorTable(props: MentorTableProps) {
 
     return (
       props.mentors.length ?
-      (<div className="MentorTable">
+      (<div id="MentorTable">
         <div>
           <TableContainer component={Paper}>
             <Table>

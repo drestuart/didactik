@@ -3,6 +3,5 @@
 3,lt,Linus,Torvalds,linus@kernel.org,987-654-3210,True,"{C,Linux}"
 4,ada_l,Ada,Lovelace,ada@difference.org,3,True,"{Difference Engine,Analytical Engine}"
 5,greg,Greg,Greggson,greg@example.com,456-123-7890,True,"{Java,Python,Ruby On Rails}"
-6,kjohns,Katherine,Johnson,kjohns@nasa.gov,963-852-7410,False,"{Assembly,Math,Aeronautics}"
-7,p__erdős,Paul,Erdős,p__erdős@nd.edu,0,False,"{Math,Number Theory,Discrete Mathematics,Graph Theory,Number Theory,Set Theory}"
-
+6,kjohns,Katherine,Johnson,kjohns@nasa.gov,963-852-7410,True,"{Assembly,Math,Aeronautics}"
+7,p__erdős,Paul,Erdős,p__erdős@nd.edu,0,True,"{Math,Number Theory,Discrete Mathematics,Graph Theory,Number Theory,Set Theory}"

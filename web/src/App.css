@@ -13,6 +13,10 @@ ul {
   width: 25%;
 }
 
+#SearchPage .page_content {
+  width: 85%;
+}
+
 .error {
   color: red;
 }
@@ -25,4 +29,22 @@ ul {
 
 #MentorAvatar > img {
   width: 200px;
+}
+
+#SearchPage, #MentorPage {
+  margin-top: 20px;
+}
+
+#MentorsPage > #MentorTable {
+  width: 85%;
+  margin: 0 auto 20px auto;
+}
+
+#MentorInfo {
+  width: 85%;
+  margin: 0 auto 20px auto;
+}
+
+.form_container {
+  margin-bottom: 10px;
 }

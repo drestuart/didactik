@@ -10,7 +10,7 @@ export function SearchPage() {
 
     const handleSubmit = (e: FormEvent) => {
 
-      const categoriesArray: string[] = categories.split(/ *, */);
+      const categoriesArray: string[] = categories.split(/[ ,]+/);
 
       searchMentors(categoriesArray)
         .then(res => {
@@ -24,8 +24,10 @@ export function SearchPage() {
       <div id="SearchPage">
         <div className="page_content">
           <form onSubmit={e => { handleSubmit(e) }}>
-              <label htmlFor='categories'>Categories</label>
+            <div className="form_container">
+              <label htmlFor='categories'>Categories</label><br/>
               <Input id='categories' name='categories' type='text' value={categories} onChange={e => setCategories(e.target.value)}/>
+            </div>
             <Button
               variant="contained"
               type='submit'>
