@@ -7,6 +7,7 @@ import { EditMentorPage } from './pages/editMentorPage';
 import { RegisterPage } from './pages/registerPage';
 import { SearchPage } from './pages/searchPage';
 import NavBar from './components/navBar';
+import { Typography } from '@mui/material';
 
 function App() {
   return (
@@ -40,8 +41,10 @@ function Layout() {
 
 function Home() {
   return (
-    <div>
+    <div className="page_content">
       <h2>Welcome to Didactik</h2>
+      <Typography>Didactik is a mentorship platform where users can find a mentor, or sign up to mentor others.</Typography><br/>
+      <Typography>Use the navigation links at the top of the page to see a list of current mentors, search for mentors by topic, or register as a mentor yourself.</Typography>
     </div>
   );
 }

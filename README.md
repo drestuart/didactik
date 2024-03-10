@@ -1,5 +1,7 @@
 # Didactik
 
+Didactik is a mentorship platform where users can find a mentor, or sign up to mentor others.
+
 ## Setup
 
 ### Prerequisites
