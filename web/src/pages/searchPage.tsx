@@ -8,9 +8,9 @@ export function SearchPage() {
     const [categories, setCategories] = useState<string>('');
     const [mentors, setMentors] = useState<Mentor[]>([]);
 
+    // Query for mentors matching the category list
     const handleSubmit = (e: FormEvent) => {
-
-      const categoriesArray: string[] = categories.split(/[ ,]+/);
+      const categoriesArray: string[] = categories.split(/ *, */);
 
       searchMentors(categoriesArray)
         .then(res => {

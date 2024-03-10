@@ -12,6 +12,7 @@ export function MentorPage() {
     const mentorId: number = Number(mentor_id);
     let categoryRows: JSX.Element[] = [];
 
+    // Get info on this mentor
     useEffect(() => {
       getMentorById(mentorId).then(
             (result) => {

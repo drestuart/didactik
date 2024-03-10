@@ -20,6 +20,7 @@ export function EditMentorPage() {
 
     const navigate = useNavigate();
 
+    // Get mentor info and fill in form
     useEffect(() => {
       getMentorById(mentorIdNum).then(
         result => {
@@ -34,6 +35,7 @@ export function EditMentorPage() {
       );
     },[mentorIdNum]);
 
+    // Update this mentor entry
     const handleSubmit = (e: FormEvent) => {
       const categoriesArray: string[] = categories.split(/ *, */);
 
@@ -61,6 +63,7 @@ export function EditMentorPage() {
       e.preventDefault();
     }
 
+    // Delete this mentor entry
     const handleDelete = () => {
       if (confirm("Are you sure you want to delete this mentor?")) { // eslint-disable-line no-restricted-globals
         deleteMentor(mentorIdNum)

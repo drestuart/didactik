@@ -164,7 +164,15 @@ def format(record):
 required_columns = ['username', 'firstName', 'lastName', 'email', 'phone']
 
 def validate(record):
-    """TODO
+    """Validate a record by checking that all
+    required columns are set. Returns None if the 
+    record is valid, or a message and http status tuple if not.
+
+    :param record: record to validate
+    :type record: dict
+
+    :return: Error message, if needed
+    :rtype: tuple or None
     """
 
     missing_columns = []

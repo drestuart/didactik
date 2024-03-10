@@ -175,7 +175,10 @@ def update_mentor(body, mentor_id):  # noqa: E501
 
 
 def get_suggested_categories():
-    """TODO
+    """Get the 3 most popular categories.
+
+    :return: A list with at <=3 categories
+    :rtype: List
     """
 
     with db.get_cursor() as cur:

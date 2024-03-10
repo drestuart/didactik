@@ -6,6 +6,7 @@ export function MentorsPage() {
 
     const [mentors, setMentors] = useState<Mentor[]>([]);
 
+    // Get all mentor entries
     useEffect(() => {
         getAllMentors().then(
             result => setMentors(result));

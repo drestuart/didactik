@@ -1,4 +1,6 @@
-
+/*
+    API functions
+*/
 export interface Mentor {
     id?: number
     username: string

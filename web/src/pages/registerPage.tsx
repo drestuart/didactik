@@ -17,8 +17,8 @@ export function RegisterPage() {
 
     const navigate = useNavigate();
 
+    // Create a new mentor entry
     const handleSubmit = (e: FormEvent) => {
-
       const categoriesArray: string[] = categories.split(/ *, */);
 
       createMentor({
@@ -30,13 +30,13 @@ export function RegisterPage() {
         availableStatus,
         categories: categoriesArray
       }).then(async (res) => {
-        if (res.status === 200) {
+        if (res.status === 200) { // Success
           setErrorMessage('');
           res.text().then( (new_id) => {
             navigate(`/mentor/${new_id}`);
           })
         }
-        else {
+        else { // Error
           res.text().then( (err) => {
             setErrorMessage(trimQuotes(err));
           })

@@ -1,3 +1,4 @@
+// Remove quotation marks from the beginning and end of a string
 export function trimQuotes(strIn: string): string {
 
     if (strIn[0] === '"') {
