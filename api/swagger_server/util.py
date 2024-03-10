@@ -160,3 +160,17 @@ def format(record):
     record["categories"] = new_categories
 
     return record
+
+required_columns = ['username', 'firstName', 'lastName', 'email', 'phone']
+
+def validate(record):
+    """TODO
+    """
+
+    missing_columns = []
+    for column in required_columns:
+        if not record[column]:
+            missing_columns.append(column)
+
+    if missing_columns:
+        return 'The following fields are required: ' + ', '.join(missing_columns), 422

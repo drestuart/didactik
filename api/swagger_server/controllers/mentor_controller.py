@@ -1,3 +1,4 @@
+import sys
 import connexion
 import psycopg
 import re
@@ -5,7 +6,6 @@ import re
 from swagger_server.models.mentor import Mentor  # noqa: E501
 from swagger_server import util
 from swagger_server import db
-
 
 def add_mentor(body):  # noqa: E501
     """Add a new mentor to the store
@@ -22,6 +22,10 @@ def add_mentor(body):  # noqa: E501
         new_record = connexion.request.get_json()
 
         new_record = util.format(new_record)
+
+        error = util.validate(new_record)
+        if error is not None:
+            return error
 
         conn = db.connect()
 
@@ -43,8 +47,6 @@ def add_mentor(body):  # noqa: E501
                 if m:
                     error_message = f'A user with {m.group(1)} {m.group(2)} already exists'
                     return error_message, 422
-
-
 
     return 'Invalid request', 422
 
@@ -138,6 +140,10 @@ def update_mentor(body, mentor_id):  # noqa: E501
     """
     if connexion.request.is_json:
         new_data = connexion.request.get_json()
+
+        error = util.validate(new_data)
+        if error is not None:
+            return error
 
         new_data = util.format(new_data)
 
